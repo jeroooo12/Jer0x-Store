@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config(); // Carga variables de entorno desde .env
-
+require('dotenv').config();
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
 
 // 🔌 Middlewares
 app.use(cors());
@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Conectado a MongoDB Atlas'))
   .catch((error) => console.error('❌ Error al conectar a MongoDB:', error));
 
-// 📦 Modelo de Producto (puedes moverlo a models/Product.js si quieres)
+// 📦 Modelo de Producto
 const ProductSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -34,7 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
-// 🛍️ Ruta para crear productos (temporal para pruebas)
+// 🛍️ Ruta para crear productos 
 app.post('/api/products', async (req, res) => {
   try {
     const { name, price, image, category } = req.body;
